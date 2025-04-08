@@ -1,0 +1,6 @@
+Text File Analysis Results
+-------------------------
+Lines: 5
+Words: 33
+UniqueWords: 25
+Characters: 154
