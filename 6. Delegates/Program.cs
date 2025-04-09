@@ -60,7 +60,7 @@ namespace Delegates
 
             Player player = new Player();
 
-            player.LevelUpEvent += PlayerLevelUp;
+            player.LevelUpEvent += PlayerLevelUp; //subscribing to event
 
 
             for (int i = 0; i < 5; i++) 
