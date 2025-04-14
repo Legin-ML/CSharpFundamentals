@@ -1,6 +1,45 @@
 @Microservice_HostAddress = http://localhost:5043
 
-GET {{Microservice_HostAddress}}/weatherforecast/
+### Create a new book
+POST {{Microservice_HostAddress}}/api/books
+Content-Type: application/json
+
+{
+  "title": "Trials of Apollo",
+  "author": "Rick Riordan",
+  "price": 19.99,
+  "genre": "Fantasy",
+  "publishedDate": "2016-05-03"
+}
+
+###
+
+### Get all books
+GET {{Microservice_HostAddress}}/api/books
 Accept: application/json
 
 ###
+
+### Get a book by ID
+GET {{Microservice_HostAddress}}/api/books/1
+Accept: application/json
+
+###
+
+### Update a book by ID
+PUT {{Microservice_HostAddress}}/api/books/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "title": "Trials of Apollo - Updated",
+  "author": "Rick Riordan",
+  "price": 19.99,
+  "genre": "Fantasy",
+  "publishedDate": "2016-05-03"
+}
+
+###
+
+### Delete a book by ID
+DELETE {{Microservice_HostAddress}}/api/books/1
