@@ -1,4 +1,5 @@
-﻿using Microservice.Data.Repositories;
+﻿using Azure.Core;
+using Microservice.Data.Repositories;
 using Microservice.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,9 +16,18 @@ namespace Microservice.Services
             _bookRepository = bookRepository;
             _logger = logger;
         }
-        public async Task<Book> AddBookAsync(Book book)
+        public async Task<Book> AddBookAsync(CreateBookRequest request)
         {
-            if (book == null) throw new ArgumentNullException(nameof(book));
+            if (request == null) throw new ArgumentNullException(nameof(request));
+
+            var book = new Book
+            {
+                Author = request.Author,
+                Genre = request.Genre,
+                Price = request.Price,
+                PublishedDate = request.PublishedDate,
+                Title = request.Title
+            };
 
             return await _bookRepository.AddBookAsync(book);
         }
@@ -52,13 +62,11 @@ namespace Microservice.Services
             return book;
         }
 
-        public async Task<Book> UpdateBookAsync(int id, Book book)
+        public async Task<Book> UpdateBookAsync(int id, UpdateBookRequest request)
         {
-            if (book == null)
-                throw new ArgumentNullException(nameof(book));
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
 
-            if (id != book.Id)
-                throw new ArgumentException("ID mismatch between route and book object");
 
             var ifExists = await _bookRepository.BookExistsAsync(id);
             if (!ifExists)
@@ -66,6 +74,17 @@ namespace Microservice.Services
                 _logger.LogWarning($"Book with ID {id} not found for update");
                 throw new KeyNotFoundException($"Book with ID {id} not found");
             }
+
+            var book = new Book
+            {
+                Id = id,
+                Author = request.Author,
+                Genre = request.Genre,
+                Price = request.Price,
+                PublishedDate = request.PublishedDate,
+                Title = request.Title
+            };
+
 
             return await _bookRepository.UpdateBookAsync(book);
         }

@@ -24,7 +24,7 @@ builder.Services.AddSwaggerGen(c =>
 
 // Configure Database
 builder.Services.AddDbContext<BookDbContext>(options =>
-    options.UseInMemoryDatabase("BooksDatabase"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerDev")));
 
 // Register repositories and services
 builder.Services.AddScoped<IBookRepository, BookRepository>();
