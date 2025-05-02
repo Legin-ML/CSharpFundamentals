@@ -47,6 +47,14 @@ namespace StudentManagement
             {
                 Console.WriteLine($"Name: {student.Name}, Grade: {student.Grade}, Age: {student.Age}");
             }
+            Console.WriteLine("--------------");
+            var filterOnlyNames = students.Where(s => s.Name.Contains('n')).ToList();
+
+            foreach (var student in filterOnlyNames)
+            {
+                Console.WriteLine($"Name: {student.Name}, Grade: {student.Grade}, Age: {student.Age}");
+            }
+
 
         }
     }

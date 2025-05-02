@@ -6,10 +6,12 @@ public interface IRepository<T> where T : class, IEntity {
     void Add(T entity);
     T Get(int id);
 
+    bool isExists(int id);
+
     IEnumerable<T> GetAll();
 
     void Update(T entity);
-    void Delete(int id);
+    bool Delete(int id);
 
 }
 
@@ -28,6 +30,13 @@ public class InMemoryRepository<T> : IRepository<T> where T : class,  IEntity {
         return _items.FirstOrDefault(e => e.Id == id);
     }
 
+    public bool isExists(int id) {
+        if(_items.FindIndex(e => e.Id == id) >= 0) {
+            return true;
+        } 
+        return false;
+    }
+
     public IEnumerable<T> GetAll() {
         return _items;
     }
@@ -39,11 +48,13 @@ public class InMemoryRepository<T> : IRepository<T> where T : class,  IEntity {
         }
     }
 
-    public void Delete(int id) {
+    public bool Delete(int id) {
         var entity = Get(id);
         if (entity != null) {
             _items.Remove(entity);
+            return true;
         }
+        return false;
     }
 
 }
@@ -69,7 +80,8 @@ class Program
             Console.WriteLine("3. Get Product by ID");
             Console.WriteLine("4. Update Product");
             Console.WriteLine("5. Delete Product");
-            Console.WriteLine("6. Exit");
+            Console.WriteLine("6. Check Product");
+            Console.WriteLine("7. Exit");
             Console.Write("Enter choice: ");
 
             var choice = Console.ReadLine();
@@ -87,8 +99,13 @@ class Program
                     break;
 
                 case "2":
+                    if(productRepository.GetAll().Count() == 0) {
+                        Console.WriteLine("The Product list is empty");
+                    }
+                    else {
                     foreach (var p in productRepository.GetAll())
                         Console.WriteLine($"ID: {p.Id}, Name: {p.Name}, Price: {p.Price}");
+                    }
                     break;
 
                 case "3":
@@ -119,13 +136,30 @@ class Program
                     break;
 
                 case "5":
+                    if(productRepository.GetAll().Count() == 0) {
+                        Console.WriteLine("The Product list is empty");
+                        break;
+                    }
                     Console.Write("Enter ID to delete: ");
                     id = int.Parse(Console.ReadLine());
-                    productRepository.Delete(id);
-                    Console.WriteLine("Product deleted.");
+                    if(productRepository.Delete(id))
+                    {
+                        Console.WriteLine("Product deleted.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Product not found");
+                    }
                     break;
 
                 case "6":
+                    Console.Write("Enter ID to check: ");
+                    id = int.Parse(Console.ReadLine());
+                    bool result = productRepository.isExists(id);
+                    Console.WriteLine($"{result}");
+                    break;
+
+                case "7":
                     return;
 
                 default:

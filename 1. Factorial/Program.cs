@@ -15,12 +15,28 @@ class FactorialCalculator
         }
 
 
-        long factorial = 1;
-        for (int i = 1; i <= number; i++)
-        {
-            factorial *= i;
-        }
+        // long factorial = 1;
+        // for (int i = 1; i <= number; i++)
+        // {
+        //     factorial *= i;
+        // }
 
-        Console.WriteLine($"The factorial of {number} is: {factorial}");
+        // Console.WriteLine($"The factorial of {number} is: {factorial}");
+        int prev = 1;
+        int next = 1;
+        for (int i = 0; i < number; i++) {
+            if (i==0) {
+                Console.WriteLine("0");
+            }
+            else if (i == 1) {
+                Console.WriteLine("1");
+            }
+            else {
+                Console.WriteLine($"{next}");
+                int temp = next;
+                next = prev+next;
+                prev = temp;
+            }
+        }
     }
 }

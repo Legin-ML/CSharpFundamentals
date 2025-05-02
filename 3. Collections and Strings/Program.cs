@@ -32,6 +32,7 @@ class Program
                 }
                 else if (command == "remove" || command == "2")
                 {
+                    if (tasks.Count != 0) {
                     Console.Write("Enter the task to remove: ");
                     string task = Console.ReadLine()?.Trim() ?? string.Empty;
                     if (tasks.Contains(task))
@@ -43,9 +44,15 @@ class Program
                     {
                         Console.WriteLine($"Task '{task}' not found.");
                     }
+                    }
+                    else {
+                        Console.WriteLine("The Tasks List is empty");
+                    }
+
                 }
                 else if (command == "display" || command == "3")
                 {
+                    if (tasks.Count != 0) {
                     Console.WriteLine("-----------------------------------------------------------");
                     Console.WriteLine("\nTasks List:");
                     foreach (var task in tasks)
@@ -53,6 +60,13 @@ class Program
                         Console.WriteLine(task.ToUpper());
                     }
                     Console.WriteLine("-----------------------------------------------------------");
+                    }
+                    else {
+                        Console.WriteLine("The Tasks List is empty");
+                    }
+                }
+                else {
+                    Console.WriteLine("The entered command is invalid!");
                 }
             }
 
